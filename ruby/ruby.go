@@ -8,11 +8,11 @@ import (
 	"unicode"
 )
 
-type RubyTime time.Time
+type Time time.Time
 
 // Format formats using Ruby's Time#strftime format string.
 // See https://docs.ruby-lang.org/en/master/strftime_formatting_rdoc.html
-func (t *RubyTime) Format(format string) string {
+func (t *Time) Format(format string) string {
 	goTime := time.Time(*t)
 	var out strings.Builder
 
@@ -288,25 +288,25 @@ func rubyValue(t time.Time, directive rune, colonCount int, hasWidthSpec bool, w
 
 	// Composite directives
 	case 'c':
-		rt := RubyTime(t)
+		rt := Time(t)
 		return rt.Format("%a %b %e %H:%M:%S %Y"), 0, 0
 	case 'D', 'x':
-		rt := RubyTime(t)
+		rt := Time(t)
 		return rt.Format("%m/%d/%y"), 0, 0
 	case 'F':
-		rt := RubyTime(t)
+		rt := Time(t)
 		return rt.Format("%Y-%m-%d"), 0, 0
 	case 'v':
-		rt := RubyTime(t)
+		rt := Time(t)
 		return rt.Format("%e-%^b-%Y"), 0, 0
 	case 'X', 'T':
-		rt := RubyTime(t)
+		rt := Time(t)
 		return rt.Format("%H:%M:%S"), 0, 0
 	case 'r':
-		rt := RubyTime(t)
+		rt := Time(t)
 		return rt.Format("%I:%M:%S %p"), 0, 0
 	case 'R':
-		rt := RubyTime(t)
+		rt := Time(t)
 		return rt.Format("%H:%M"), 0, 0
 
 	default:

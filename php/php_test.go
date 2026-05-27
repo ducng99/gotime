@@ -7,23 +7,23 @@ import (
 
 func TestFormatPhp(t *testing.T) {
 	// Wednesday 2023-03-15 14:30:45.123456789 UTC
-	ref := PhpTime(time.Date(2023, time.March, 15, 14, 30, 45, 123456789, time.UTC))
+	ref := Time(time.Date(2023, time.March, 15, 14, 30, 45, 123456789, time.UTC))
 
 	ist := time.FixedZone("IST", 5*3600+30*60)   // +05:30
-	istRef := PhpTime(time.Date(2023, time.March, 15, 14, 30, 45, 0, ist))
+	istRef := Time(time.Date(2023, time.March, 15, 14, 30, 45, 0, ist))
 	est := time.FixedZone("EST", -5*3600)         // -05:00
-	estRef := PhpTime(time.Date(2023, time.March, 15, 14, 30, 45, 0, est))
+	estRef := Time(time.Date(2023, time.March, 15, 14, 30, 45, 0, est))
 
-	day := func(d int) PhpTime {
-		return PhpTime(time.Date(2023, time.January, d, 0, 0, 0, 0, time.UTC))
+	day := func(d int) Time {
+		return Time(time.Date(2023, time.January, d, 0, 0, 0, 0, time.UTC))
 	}
-	hour := func(h int) PhpTime {
-		return PhpTime(time.Date(2023, time.March, 15, h, 0, 0, 0, time.UTC))
+	hour := func(h int) Time {
+		return Time(time.Date(2023, time.March, 15, h, 0, 0, 0, time.UTC))
 	}
 
 	tests := []struct {
 		name   string
-		t      PhpTime
+		t      Time
 		format string
 		want   string
 	}{
@@ -33,7 +33,7 @@ func TestFormatPhp(t *testing.T) {
 		{"j no leading zero", ref, "j", "15"},
 		{"l full name", ref, "l", "Wednesday"},
 		{"N iso weekday Wed=3", ref, "N", "3"},
-		{"N iso weekday Sun=7", PhpTime(time.Date(2023, time.March, 19, 0, 0, 0, 0, time.UTC)), "N", "7"},
+		{"N iso weekday Sun=7", Time(time.Date(2023, time.March, 19, 0, 0, 0, 0, time.UTC)), "N", "7"},
 		{"S th", ref, "S", "th"},
 		{"S st day 1", day(1), "S", "st"},
 		{"S nd day 2", day(2), "S", "nd"},
@@ -46,14 +46,14 @@ func TestFormatPhp(t *testing.T) {
 		{"S nd day 22", day(22), "S", "nd"},
 		{"S rd day 23", day(23), "S", "rd"},
 		{"S st day 31", day(31), "S", "st"},
-		{"w Sun=0", PhpTime(time.Date(2023, time.March, 19, 0, 0, 0, 0, time.UTC)), "w", "0"},
+		{"w Sun=0", Time(time.Date(2023, time.March, 19, 0, 0, 0, 0, time.UTC)), "w", "0"},
 		{"w Wed=3", ref, "w", "3"},
 		{"z day of year 0-indexed", ref, "z", "73"},
 		{"z Jan 1 is 0", day(1), "z", "0"},
 
 		// --- Week ---
 		{"W iso week 11", ref, "W", "11"},
-		{"W padded single digit", PhpTime(time.Date(2023, time.January, 4, 0, 0, 0, 0, time.UTC)), "W", "01"},
+		{"W padded single digit", Time(time.Date(2023, time.January, 4, 0, 0, 0, 0, time.UTC)), "W", "01"},
 
 		// --- Month ---
 		{"F full month", ref, "F", "March"},
@@ -61,17 +61,17 @@ func TestFormatPhp(t *testing.T) {
 		{"M short month", ref, "M", "Mar"},
 		{"n no leading zero", ref, "n", "3"},
 		{"t March has 31", ref, "t", "31"},
-		{"t April has 30", PhpTime(time.Date(2023, time.April, 1, 0, 0, 0, 0, time.UTC)), "t", "30"},
-		{"t Feb non-leap has 28", PhpTime(time.Date(2023, time.February, 1, 0, 0, 0, 0, time.UTC)), "t", "28"},
-		{"t Feb leap has 29", PhpTime(time.Date(2024, time.February, 1, 0, 0, 0, 0, time.UTC)), "t", "29"},
+		{"t April has 30", Time(time.Date(2023, time.April, 1, 0, 0, 0, 0, time.UTC)), "t", "30"},
+		{"t Feb non-leap has 28", Time(time.Date(2023, time.February, 1, 0, 0, 0, 0, time.UTC)), "t", "28"},
+		{"t Feb leap has 29", Time(time.Date(2024, time.February, 1, 0, 0, 0, 0, time.UTC)), "t", "29"},
 
 		// --- Year ---
 		{"L not leap 2023", ref, "L", "0"},
-		{"L leap 2024", PhpTime(time.Date(2024, time.January, 1, 0, 0, 0, 0, time.UTC)), "L", "1"},
-		{"L leap 2000 div400", PhpTime(time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC)), "L", "1"},
-		{"L not leap 1900 div100", PhpTime(time.Date(1900, time.January, 1, 0, 0, 0, 0, time.UTC)), "L", "0"},
+		{"L leap 2024", Time(time.Date(2024, time.January, 1, 0, 0, 0, 0, time.UTC)), "L", "1"},
+		{"L leap 2000 div400", Time(time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC)), "L", "1"},
+		{"L not leap 1900 div100", Time(time.Date(1900, time.January, 1, 0, 0, 0, 0, time.UTC)), "L", "0"},
 		{"o iso year same as calendar", ref, "o", "2023"},
-		{"o iso year differs from calendar", PhpTime(time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)), "o", "2015"},
+		{"o iso year differs from calendar", Time(time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)), "o", "2015"},
 		{"Y 4-digit year", ref, "Y", "2023"},
 		{"y 2-digit year", ref, "y", "23"},
 
@@ -147,8 +147,8 @@ func TestFormatPhp_DST(t *testing.T) {
 		t.Skip("timezone data not available")
 	}
 
-	summer := PhpTime(time.Date(2023, time.July, 15, 12, 0, 0, 0, loc))
-	winter := PhpTime(time.Date(2023, time.January, 15, 12, 0, 0, 0, loc))
+	summer := Time(time.Date(2023, time.July, 15, 12, 0, 0, 0, loc))
+	winter := Time(time.Date(2023, time.January, 15, 12, 0, 0, 0, loc))
 
 	if got := summer.Format("I"); got != "1" {
 		t.Errorf("DST active: FormatPhp(\"I\") = %q, want \"1\"", got)

@@ -32,7 +32,7 @@ import (
 )
 
 func main() {
-    t := php.PhpTime(time.Now())
+    t := php.Time(time.Now())
     fmt.Println(t.Format("Y-m-d H:i:s"))  // 2026-05-27 14:30:00
 }
 ```
@@ -50,7 +50,7 @@ import (
 )
 
 func main() {
-    t := ruby.RubyTime(time.Now())
+    t := ruby.Time(time.Now())
     fmt.Println(t.Format("%Y-%m-%d %H:%M:%S"))  // 2026-05-27 14:30:00
 }
 ```
@@ -68,7 +68,7 @@ import (
 )
 
 func main() {
-    t := java.JavaTime(time.Now())
+    t := java.Time(time.Now())
     fmt.Println(t.Format("yyyy-MM-dd HH:mm:ss"))  // 2026-05-27 14:30:00
 }
 ```

@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-type JavaTime time.Time
+type Time time.Time
 
 // DateTimeFormatter constants - Java predefined format patterns
 // See https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/format/DateTimeFormatter.html
@@ -36,7 +36,7 @@ const (
 // Literal text is enclosed in single quotes. A doubled single quote (”)
 // produces a literal single quote. Consecutive identical pattern letters
 // form a specifier; the count changes the output format.
-func (t *JavaTime) Format(format string) string {
+func (t *Time) Format(format string) string {
 	goTime := time.Time(*t)
 	var out strings.Builder
 

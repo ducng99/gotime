@@ -7,23 +7,23 @@ import (
 
 func TestFormatJava(t *testing.T) {
 	// Wednesday 2023-03-15 14:30:45.123456789 UTC
-	ref := JavaTime(time.Date(2023, time.March, 15, 14, 30, 45, 123456789, time.UTC))
+	ref := Time(time.Date(2023, time.March, 15, 14, 30, 45, 123456789, time.UTC))
 
 	ist := time.FixedZone("IST", 5*3600+30*60) // +05:30
 	est := time.FixedZone("EST", -5*3600)      // -05:00
-	istRef := JavaTime(time.Date(2023, time.March, 15, 14, 30, 45, 0, ist))
-	estRef := JavaTime(time.Date(2023, time.March, 15, 14, 30, 45, 0, est))
+	istRef := Time(time.Date(2023, time.March, 15, 14, 30, 45, 0, ist))
+	estRef := Time(time.Date(2023, time.March, 15, 14, 30, 45, 0, est))
 
-	day := func(month time.Month, d int) JavaTime {
-		return JavaTime(time.Date(2023, month, d, 0, 0, 0, 0, time.UTC))
+	day := func(month time.Month, d int) Time {
+		return Time(time.Date(2023, month, d, 0, 0, 0, 0, time.UTC))
 	}
-	hour := func(h int) JavaTime {
-		return JavaTime(time.Date(2023, time.March, 15, h, 0, 0, 0, time.UTC))
+	hour := func(h int) Time {
+		return Time(time.Date(2023, time.March, 15, h, 0, 0, 0, time.UTC))
 	}
 
 	tests := []struct {
 		name   string
-		t      JavaTime
+		t      Time
 		format string
 		want   string
 	}{
@@ -32,8 +32,8 @@ func TestFormatJava(t *testing.T) {
 		{"GG AD", ref, "GG", "AD"},
 		{"GGG AD", ref, "GGG", "AD"},
 		{"GGGG AD", ref, "GGGG", "Anno Domini"},
-		{"G BC", JavaTime(time.Date(-100, time.January, 1, 0, 0, 0, 0, time.UTC)), "G", "BC"},
-		{"GGGG BC", JavaTime(time.Date(-100, time.January, 1, 0, 0, 0, 0, time.UTC)), "GGGG", "Before Christ"},
+		{"G BC", Time(time.Date(-100, time.January, 1, 0, 0, 0, 0, time.UTC)), "G", "BC"},
+		{"GGGG BC", Time(time.Date(-100, time.January, 1, 0, 0, 0, 0, time.UTC)), "GGGG", "Before Christ"},
 
 		// --- Year ---
 		{"y single digit", day(time.January, 5), "y", "2023"},
@@ -48,9 +48,9 @@ func TestFormatJava(t *testing.T) {
 		{"QQ 2-digit", ref, "QQ", "01"},
 		{"QQQ abbreviated", ref, "QQQ", "Q1"},
 		{"QQQQ full", ref, "QQQQ", "1st quarter"},
-		{"Q2", JavaTime(time.Date(2023, time.June, 15, 0, 0, 0, 0, time.UTC)), "QQQQ", "2nd quarter"},
-		{"Q3", JavaTime(time.Date(2023, time.September, 15, 0, 0, 0, 0, time.UTC)), "QQQQ", "3rd quarter"},
-		{"Q4", JavaTime(time.Date(2023, time.December, 15, 0, 0, 0, 0, time.UTC)), "QQQQ", "4th quarter"},
+		{"Q2", Time(time.Date(2023, time.June, 15, 0, 0, 0, 0, time.UTC)), "QQQQ", "2nd quarter"},
+		{"Q3", Time(time.Date(2023, time.September, 15, 0, 0, 0, 0, time.UTC)), "QQQQ", "3rd quarter"},
+		{"Q4", Time(time.Date(2023, time.December, 15, 0, 0, 0, 0, time.UTC)), "QQQQ", "4th quarter"},
 
 		// --- Month ---
 		{"M single digit", day(time.March, 5), "M", "3"},
@@ -209,8 +209,8 @@ func TestFormatJava_DST(t *testing.T) {
 		t.Skip("timezone data not available")
 	}
 
-	summer := JavaTime(time.Date(2023, time.July, 15, 12, 0, 0, 0, loc))
-	winter := JavaTime(time.Date(2023, time.January, 15, 12, 0, 0, 0, loc))
+	summer := Time(time.Date(2023, time.July, 15, 12, 0, 0, 0, loc))
+	winter := Time(time.Date(2023, time.January, 15, 12, 0, 0, 0, loc))
 
 	if got := summer.Format("z"); got != "EDT" {
 		t.Errorf("DST summer z = %q, want %q", got, "EDT")

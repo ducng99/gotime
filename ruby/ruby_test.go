@@ -7,28 +7,28 @@ import (
 
 func TestFormatRuby(t *testing.T) {
 	// Wednesday 2023-03-15 14:30:45.123456789 UTC
-	ref := RubyTime(time.Date(2023, time.March, 15, 14, 30, 45, 123456789, time.UTC))
+	ref := Time(time.Date(2023, time.March, 15, 14, 30, 45, 123456789, time.UTC))
 
 	ist := time.FixedZone("IST", 5*3600+30*60)  // +05:30
 	est := time.FixedZone("EST", -5*3600)        // -05:00
-	istRef := RubyTime(time.Date(2023, time.March, 15, 14, 30, 45, 0, ist))
-	estRef := RubyTime(time.Date(2023, time.March, 15, 14, 30, 45, 0, est))
+	istRef := Time(time.Date(2023, time.March, 15, 14, 30, 45, 0, ist))
+	estRef := Time(time.Date(2023, time.March, 15, 14, 30, 45, 0, est))
 
-	day := func(month time.Month, d int) RubyTime {
-		return RubyTime(time.Date(2023, month, d, 0, 0, 0, 0, time.UTC))
+	day := func(month time.Month, d int) Time {
+		return Time(time.Date(2023, month, d, 0, 0, 0, 0, time.UTC))
 	}
-	hour := func(h int) RubyTime {
-		return RubyTime(time.Date(2023, time.March, 15, h, 0, 0, 0, time.UTC))
+	hour := func(h int) Time {
+		return Time(time.Date(2023, time.March, 15, h, 0, 0, 0, time.UTC))
 	}
 	// Years where Jan 1 falls on each weekday for week-number edge-case testing.
 	// 2023: Jan 1 = Sunday, 2024: Mon, 2019: Tue, 2020: Wed, 2015: Thu, 2021: Fri, 2022: Sat
-	jan1 := func(year int) RubyTime {
-		return RubyTime(time.Date(year, 1, 1, 0, 0, 0, 0, time.UTC))
+	jan1 := func(year int) Time {
+		return Time(time.Date(year, 1, 1, 0, 0, 0, 0, time.UTC))
 	}
 
 	tests := []struct {
 		name   string
-		t      RubyTime
+		t      Time
 		format string
 		want   string
 	}{
@@ -51,7 +51,7 @@ func TestFormatRuby(t *testing.T) {
 		{"%j day of year Jan1", day(time.January, 1), "%j", "001"},
 		{"%j day of year Mar15", ref, "%j", "074"},
 		{"%j day of year Dec31", day(time.December, 31), "%j", "365"},
-		{"%j leap year Feb29", RubyTime(time.Date(2024, 2, 29, 0, 0, 0, 0, time.UTC)), "%j", "060"},
+		{"%j leap year Feb29", Time(time.Date(2024, 2, 29, 0, 0, 0, 0, time.UTC)), "%j", "060"},
 
 		// --- Hour ---
 		{"%H 24h zero-padded", ref, "%H", "14"},
@@ -98,9 +98,9 @@ func TestFormatRuby(t *testing.T) {
 		// --- Weekday ---
 		{"%A full Wed", ref, "%A", "Wednesday"},
 		{"%a abbreviated Wed", ref, "%a", "Wed"},
-		{"%u ISO Mon=1", RubyTime(time.Date(2023, 3, 13, 0, 0, 0, 0, time.UTC)), "%u", "1"},
-		{"%u ISO Sun=7", RubyTime(time.Date(2023, 3, 19, 0, 0, 0, 0, time.UTC)), "%u", "7"},
-		{"%w Sun=0", RubyTime(time.Date(2023, 3, 19, 0, 0, 0, 0, time.UTC)), "%w", "0"},
+		{"%u ISO Mon=1", Time(time.Date(2023, 3, 13, 0, 0, 0, 0, time.UTC)), "%u", "1"},
+		{"%u ISO Sun=7", Time(time.Date(2023, 3, 19, 0, 0, 0, 0, time.UTC)), "%u", "7"},
+		{"%w Sun=0", Time(time.Date(2023, 3, 19, 0, 0, 0, 0, time.UTC)), "%w", "0"},
 		{"%w Wed=3", ref, "%w", "3"},
 
 		// --- Week numbers (%U Sunday-based) ---
@@ -127,10 +127,10 @@ func TestFormatRuby(t *testing.T) {
 
 		// --- ISO week date ---
 		{"%G ISO year same", ref, "%G", "2023"},
-		{"%G ISO year differs Jan1", RubyTime(time.Date(2016, 1, 1, 0, 0, 0, 0, time.UTC)), "%G", "2015"},
+		{"%G ISO year differs Jan1", Time(time.Date(2016, 1, 1, 0, 0, 0, 0, time.UTC)), "%G", "2015"},
 		{"%V ISO week ref", ref, "%V", "11"},
-		{"%V ISO week boundary", RubyTime(time.Date(2016, 1, 1, 0, 0, 0, 0, time.UTC)), "%V", "53"},
-		{"%g ISO year 2-digit", RubyTime(time.Date(2016, 1, 1, 0, 0, 0, 0, time.UTC)), "%g", "15"},
+		{"%V ISO week boundary", Time(time.Date(2016, 1, 1, 0, 0, 0, 0, time.UTC)), "%V", "53"},
+		{"%g ISO year 2-digit", Time(time.Date(2016, 1, 1, 0, 0, 0, 0, time.UTC)), "%g", "15"},
 
 		// --- Literals ---
 		{"%n newline", ref, "%n", "\n"},
@@ -201,8 +201,8 @@ func TestFormatRuby_DST(t *testing.T) {
 		t.Skip("timezone data not available")
 	}
 
-	summer := RubyTime(time.Date(2023, time.July, 15, 12, 0, 0, 0, loc))
-	winter := RubyTime(time.Date(2023, time.January, 15, 12, 0, 0, 0, loc))
+	summer := Time(time.Date(2023, time.July, 15, 12, 0, 0, 0, loc))
+	winter := Time(time.Date(2023, time.January, 15, 12, 0, 0, 0, loc))
 
 	if got := summer.Format("%Z"); got != "EDT" {
 		t.Errorf("DST summer %%Z = %q, want %q", got, "EDT")

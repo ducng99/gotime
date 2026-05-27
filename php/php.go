@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-type PhpTime time.Time
+type Time time.Time
 
 // DateTimeInterface constants - PHP date format constants
 const (
@@ -30,7 +30,7 @@ const (
 // Format formats using PHP's date() format string.
 // See https://www.php.net/manual/en/datetime.format.php
 // Literal characters can be escaped with a backslash.
-func (t *PhpTime) Format(format string) string {
+func (t *Time) Format(format string) string {
 	goTime := time.Time(*t)
 	var result strings.Builder
 
