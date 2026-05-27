@@ -4,8 +4,17 @@ Format Go `time.Time` values using other languages' date format strings.
 
 ## Installation
 
+Install only the package you need:
+
 ```bash
-go get github.com/ducng99/gotime
+# PHP format
+go get -u github.com/ducng99/gotime/php@latest
+
+# Ruby format
+go get -u github.com/ducng99/gotime/ruby@latest
+
+# Java format
+go get -u github.com/ducng99/gotime/java@latest
 ```
 
 ## Usage
