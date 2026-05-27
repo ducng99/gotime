@@ -9,10 +9,10 @@ import (
 
 type PhpTime time.Time
 
-// FormatPhp formats using PHP's date() format string.
+// Format formats using PHP's date() format string.
 // See https://www.php.net/manual/en/datetime.format.php
 // Literal characters can be escaped with a backslash.
-func (t *PhpTime) FormatPhp(format string) string {
+func (t *PhpTime) Format(format string) string {
 	goTime := time.Time(*t)
 	var result strings.Builder
 

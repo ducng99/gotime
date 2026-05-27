@@ -133,7 +133,7 @@ func TestFormatPhp(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			got := tc.t.FormatPhp(tc.format)
+			got := tc.t.Format(tc.format)
 			if got != tc.want {
 				t.Errorf("FormatPhp(%q) = %q, want %q", tc.format, got, tc.want)
 			}
@@ -150,13 +150,13 @@ func TestFormatPhp_DST(t *testing.T) {
 	summer := PhpTime(time.Date(2023, time.July, 15, 12, 0, 0, 0, loc))
 	winter := PhpTime(time.Date(2023, time.January, 15, 12, 0, 0, 0, loc))
 
-	if got := summer.FormatPhp("I"); got != "1" {
+	if got := summer.Format("I"); got != "1" {
 		t.Errorf("DST active: FormatPhp(\"I\") = %q, want \"1\"", got)
 	}
-	if got := winter.FormatPhp("I"); got != "0" {
+	if got := winter.Format("I"); got != "0" {
 		t.Errorf("DST inactive: FormatPhp(\"I\") = %q, want \"0\"", got)
 	}
-	if got := summer.FormatPhp("e"); got != "America/New_York" {
+	if got := summer.Format("e"); got != "America/New_York" {
 		t.Errorf("FormatPhp(\"e\") = %q, want \"America/New_York\"", got)
 	}
 }

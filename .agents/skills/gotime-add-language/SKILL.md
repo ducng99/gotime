@@ -29,7 +29,7 @@ The canonical example is `php/php.go`. Every language sub-package follows this s
 Key elements:
 - `package <language>` (lowercase)
 - `type <Lang>Time time.Time` — a named type wrapping `time.Time`
-- One exported method: `func (t *<Lang>Time) Format<Lang>(format string) string`
+- One exported method: `func (t *<Lang>Time) Format(format string) string`
 - One unexported dispatch function that maps a format token to a string
 
 ## Implementation requirements
