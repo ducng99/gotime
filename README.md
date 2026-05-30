@@ -78,5 +78,5 @@ And more...
 ## Supported Format Specifiers
 
 - **PHP**: Full support for PHP `date()` format specifiers (see [PHP docs](https://www.php.net/manual/en/datetime.format.php))
-- **Ruby**: Full support for Ruby `strftime` format specifiers including flags, width, and case modifiers (see [Ruby docs](https://docs.ruby-lang.org/en/master/strftime_formatting_rdoc.html))
-- **Java**: Full support for Java `SimpleDateFormat`/`DateTimeFormatter` pattern letters (see [Java docs](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html))
+- **Ruby**: Full support for Ruby `strftime` format specifiers including flags, width, and case modifiers (see [Ruby docs](https://docs.ruby-lang.org/en/master/language/strftime_formatting_rdoc.html))
+- **Java**: Full support for Java `DateTimeFormatter` pattern letters (see [Java docs](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html))
