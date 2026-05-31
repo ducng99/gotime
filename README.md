@@ -6,14 +6,21 @@ Format Go `time.Time` values using other languages' date format strings.
 
 Install only the package you need:
 
-```bash
-# PHP format
+### PHP Format
+
+```sh
 go get -u github.com/ducng99/gotime/php@latest
+```
 
-# Ruby format
+### Ruby format
+
+```sh
 go get -u github.com/ducng99/gotime/ruby@latest
+```
 
-# Java format
+### Java format
+
+```sh
 go get -u github.com/ducng99/gotime/java@latest
 ```
 
