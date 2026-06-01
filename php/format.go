@@ -88,6 +88,13 @@ func phpChar(t time.Time, ch rune) string {
 	case 'o':
 		isoYear, _ := t.ISOWeek()
 		return strconv.Itoa(isoYear)
+	case 'X':
+		// Expanded year: always prefixed with + or -, at least 4 digits.
+		year := t.Year()
+		if year >= 0 {
+			return fmt.Sprintf("+%04d", year)
+		}
+		return fmt.Sprintf("%05d", year) // negative sign + 4 digits
 	case 'Y':
 		return t.Format("2006")
 	case 'y':

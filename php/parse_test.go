@@ -39,8 +39,23 @@ func TestParsePhp(t *testing.T) {
 	t.Run("ATOM constant", func(t *testing.T) { roundTrip(t, istRef, DateTimeATOM) })
 	t.Run("RFC3339 constant", func(t *testing.T) { roundTrip(t, istRef, DateTimeRFC3339) })
 	t.Run("RFC1123 constant", func(t *testing.T) { roundTrip(t, ref, DateTimeRFC1123) })
+	t.Run("COOKIE constant", func(t *testing.T) { roundTrip(t, ref, DateTimeCOOKIE) })
 	t.Run("c full datetime", func(t *testing.T) { roundTrip(t, istRef, "c") })
 	t.Run("r RFC2822", func(t *testing.T) { roundTrip(t, ref, "r") })
+
+	// Newly-supported tokens
+	t.Run("ordinal S", func(t *testing.T) { roundTrip(t, ref, "jS F Y") })
+	t.Run("weekday N", func(t *testing.T) { roundTrip(t, ref, "Y-m-d N") })
+	t.Run("weekday w", func(t *testing.T) { roundTrip(t, ref, "Y-m-d w") })
+	t.Run("day of year z", func(t *testing.T) { roundTrip(t, ref, "Y z H:i:s") })
+	t.Run("ISO week W+o+N", func(t *testing.T) { roundTrip(t, ref, "o-W-N") })
+	t.Run("days in month t", func(t *testing.T) { roundTrip(t, ref, "Y-m-t") })
+	t.Run("leap year L", func(t *testing.T) { roundTrip(t, ref, "Y-m-d L") })
+	t.Run("DST indicator I", func(t *testing.T) { roundTrip(t, ref, "Y-m-d H:i:s I") })
+	t.Run("Swatch time B", func(t *testing.T) { roundTrip(t, ref, "Y-m-d.B") })
+	t.Run("tz seconds Z", func(t *testing.T) { roundTrip(t, istRef, "Y-m-d H:i:s Z") })
+	t.Run("tz identifier e", func(t *testing.T) { roundTrip(t, ref, "Y-m-d H:i:s e") })
+	t.Run("unix timestamp U", func(t *testing.T) { roundTrip(t, ref, "U") })
 
 	// Direct parse: known input → expected time components
 	t.Run("direct parse UTC", func(t *testing.T) {
@@ -55,11 +70,6 @@ func TestParsePhp(t *testing.T) {
 		}
 	})
 
-	// Unsupported tokens
-	for _, spec := range []string{"S", "N", "w", "z", "W", "t", "L", "o", "I", "B", "Z", "U", "e"} {
-		_, err := Parse(spec, "x")
-		if err == nil {
-			t.Errorf("Parse(%q, \"x\") expected error, got nil", spec)
-		}
-	}
+	t.Run("expanded year X", func(t *testing.T) { roundTrip(t, ref, "X-m-d") })
+	t.Run("expanded year X ISO8601Expanded", func(t *testing.T) { roundTrip(t, istRef, DateTimeISO8601Expanded) })
 }

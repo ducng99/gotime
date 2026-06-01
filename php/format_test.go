@@ -125,7 +125,7 @@ func TestFormatPhp(t *testing.T) {
 		// --- Escaping and literals ---
 		{"backslash escapes format char", ref, `\Y`, "Y"},
 		{"backslash escapes non-format char", ref, `\-`, "-"},
-		{"unknown char passes through", ref, "X", "X"},
+		{"expanded year X", ref, "X", "+2023"},
 		{"mixed format", ref, "Y-m-d", "2023-03-15"},
 		{"escaped format chars in mixed", ref, `\Ym\d`, "Y03d"},
 		{"full datetime format", ref, "Y-m-d H:i:s", "2023-03-15 14:30:45"},
