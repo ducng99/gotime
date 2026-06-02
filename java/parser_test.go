@@ -45,6 +45,28 @@ func TestParseJava(t *testing.T) {
 	t.Run("IsoOffsetDateTime constant", func(t *testing.T) { roundTrip(t, istRef, DateTimeIsoOffsetDateTime) })
 	t.Run("Rfc1123 constant", func(t *testing.T) { roundTrip(t, ref, DateTimeRfc1123) })
 
+	// Newly-supported tokens
+	t.Run("era G", func(t *testing.T) { roundTrip(t, ref, "GG yyyy-MM-dd") })
+	t.Run("ISO week date", func(t *testing.T) { roundTrip(t, ref, DateTimeIsoWeekDate) })
+	t.Run("ordinal date", func(t *testing.T) { roundTrip(t, ref, DateTimeIsoOrdinalDate) })
+	t.Run("quarter Q", func(t *testing.T) { roundTrip(t, ref, "yyyy-MM-dd QQ") })
+	t.Run("quarter q", func(t *testing.T) { roundTrip(t, ref, "yyyy-MM-dd qq") })
+	t.Run("week of month W", func(t *testing.T) { roundTrip(t, ref, "yyyy-MM-dd W") })
+	t.Run("day of week in month F", func(t *testing.T) { roundTrip(t, ref, "yyyy-MM-dd F") })
+	t.Run("stand-alone weekday c", func(t *testing.T) { roundTrip(t, ref, "yyyy-MM-dd ccc") })
+	t.Run("hour k", func(t *testing.T) { roundTrip(t, ref, "yyyy-MM-dd kk:mm:ss") })
+	t.Run("hour K", func(t *testing.T) { roundTrip(t, ref, "yyyy-MM-dd KK:mm:ss a") })
+	t.Run("ms of day A", func(t *testing.T) { roundTrip(t, ref, "yyyy-MM-dd A") })
+	t.Run("nano of day N", func(t *testing.T) { roundTrip(t, ref, "yyyy-MM-dd N") })
+	t.Run("nano of second n", func(t *testing.T) { roundTrip(t, msRef, "yyyy-MM-dd HH:mm:ss n") })
+	t.Run("GMT offset O", func(t *testing.T) { roundTrip(t, istRef, "yyyy-MM-dd HH:mm:ss O") })
+	t.Run("GMT offset O UTC", func(t *testing.T) { roundTrip(t, ref, "yyyy-MM-dd HH:mm:ss O") })
+	t.Run("GMT long offset OOOO", func(t *testing.T) { roundTrip(t, istRef, "yyyy-MM-dd HH:mm:ss OOOO") })
+	t.Run("ZZZZ offset", func(t *testing.T) { roundTrip(t, istRef, "yyyy-MM-dd HH:mm:ss ZZZZ") })
+	t.Run("timezone abbr z", func(t *testing.T) { roundTrip(t, ref, "yyyy-MM-dd HH:mm:ss z") })
+	t.Run("generic zone v", func(t *testing.T) { roundTrip(t, ref, "yyyy-MM-dd HH:mm:ss v") })
+	t.Run("zone ID VV", func(t *testing.T) { roundTrip(t, ref, DateTimeIsoZonedDateTime) })
+
 	// Direct parse
 	t.Run("direct parse UTC", func(t *testing.T) {
 		parsed, err := Parse("yyyy-MM-dd HH:mm:ss", "2023-03-15 14:30:45")
@@ -57,12 +79,4 @@ func TestParseJava(t *testing.T) {
 			t.Errorf("unexpected time: %v", got)
 		}
 	})
-
-	// Unsupported patterns
-	for _, spec := range []string{"G", "Y", "Q", "q", "w", "W", "D", "F", "e", "c", "k", "K", "A", "N", "n", "O", "V", "v"} {
-		_, err := Parse(spec, "x")
-		if err == nil {
-			t.Errorf("Parse(%q, \"x\") expected error, got nil", spec)
-		}
-	}
 }
