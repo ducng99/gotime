@@ -24,6 +24,7 @@ func TestParsePhp(t *testing.T) {
 		}
 	}
 
+	// Direct patterns
 	t.Run("date", func(t *testing.T) { roundTrip(t, ref, "Y-m-d") })
 	t.Run("datetime", func(t *testing.T) { roundTrip(t, ref, "Y-m-d H:i:s") })
 	t.Run("unpadded day/month", func(t *testing.T) { roundTrip(t, ref, "j n Y") })
@@ -43,7 +44,7 @@ func TestParsePhp(t *testing.T) {
 	t.Run("c full datetime", func(t *testing.T) { roundTrip(t, istRef, "c") })
 	t.Run("r RFC2822", func(t *testing.T) { roundTrip(t, ref, "r") })
 
-	// Newly-supported tokens
+	// Non-direct patterns
 	t.Run("ordinal S", func(t *testing.T) { roundTrip(t, ref, "jS F Y") })
 	t.Run("weekday N", func(t *testing.T) { roundTrip(t, ref, "Y-m-d N") })
 	t.Run("weekday w", func(t *testing.T) { roundTrip(t, ref, "Y-m-d w") })

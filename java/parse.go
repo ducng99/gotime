@@ -260,10 +260,7 @@ func javaParse(format, value string) (time.Time, error) {
 			if count == 1 {
 				consumed, err = parseJavaVarInt(rest, &n, 1, 3)
 			} else {
-				w := count
-				if w > 3 {
-					w = 3
-				}
+				w := min(count, 3)
 				consumed, err = parseJavaFixedInt(rest, &n, w)
 			}
 			if err == nil {
@@ -392,10 +389,7 @@ func javaParse(format, value string) (time.Time, error) {
 			}
 
 		case 'S': // Fractional second (count = significant digits).
-			prec := count
-			if prec > 9 {
-				prec = 9
-			}
+			prec := min(count, 9)
 			consumed, err = parseJavaFracSec(rest, prec, &ps.nano)
 
 		case 'A': // Millisecond of day.

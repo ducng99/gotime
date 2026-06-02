@@ -24,6 +24,7 @@ func TestParseJava(t *testing.T) {
 		}
 	}
 
+	// Direct patterns
 	t.Run("basic date", func(t *testing.T) { roundTrip(t, ref, "yyyy-MM-dd") })
 	t.Run("datetime", func(t *testing.T) { roundTrip(t, ref, "yyyy-MM-dd HH:mm:ss") })
 	t.Run("2-digit year", func(t *testing.T) { roundTrip(t, ref, "yy-MM-dd") })
@@ -45,7 +46,7 @@ func TestParseJava(t *testing.T) {
 	t.Run("IsoOffsetDateTime constant", func(t *testing.T) { roundTrip(t, istRef, DateTimeIsoOffsetDateTime) })
 	t.Run("Rfc1123 constant", func(t *testing.T) { roundTrip(t, ref, DateTimeRfc1123) })
 
-	// Newly-supported tokens
+	// Non-direct patterns
 	t.Run("era G", func(t *testing.T) { roundTrip(t, ref, "GG yyyy-MM-dd") })
 	t.Run("ISO week date", func(t *testing.T) { roundTrip(t, ref, DateTimeIsoWeekDate) })
 	t.Run("ordinal date", func(t *testing.T) { roundTrip(t, ref, DateTimeIsoOrdinalDate) })
